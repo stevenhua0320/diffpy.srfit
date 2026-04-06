@@ -16,7 +16,7 @@
 
 **Fixed:**
 
-* <news item>
+* Fixed load new parsed data with updated `Qmax` attribute
 
 **Security:**
 

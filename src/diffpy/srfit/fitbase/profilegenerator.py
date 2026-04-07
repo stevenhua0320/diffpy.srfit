@@ -163,15 +163,18 @@ class ProfileGenerator(Operator, ParameterSet):
             will store the calculated signal.
         """
         if self.profile is not None:
-            self.profile.removeObserver(self._flush)
+            self.profile.removeObserver(self._on_profile_update)
 
         self.profile = profile
-        self.profile.addObserver(self._flush)
-        self._flush(other=(self,))
+        self.profile.addObserver(self._on_profile_update)
+        self._on_profile_update(other=(self,))
+        return
 
-        # Merge the profiles metadata with our own
-        self.meta.update(self.profile.meta)
-        self.processMetaData()
+    def _on_profile_update(self, other=()):
+        if self.profile is not None:
+            self.meta.update(self.profile.meta)
+            self.processMetaData()
+        self._flush(other=other)
         return
 
     def processMetaData(self):
